@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ambu 💖</title>
 
 <!-- Confetti -->
@@ -10,144 +10,79 @@
 
 <style>
 :root {
-  --pink1: #ffe6f0;
-  --pink2: #fff1f7;
+  --gradient1: #ffe6f0;
+  --gradient2: #fff1f7;
   --accent: #ff3b7a;
+  --card-bg: rgba(255,255,255,0.85);
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  margin: 0;
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(120deg, var(--pink1), var(--pink2), var(--pink1));
-  background-size: 300% 300%;
-  animation: bgFlow 14s ease infinite;
-  font-family: "Poppins", system-ui, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--gradient1), var(--gradient2));
+  font-family: 'Poppins', sans-serif;
   overflow: hidden;
-  padding: 16px;
 }
 
-@keyframes bgFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.card {
+  position: relative;
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  padding: 40px 32px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(255,59,122,0.15);
+  z-index: 1;
+}
+
+p {
+  font-size: clamp(16px, 1.9vw, 22px);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  color: #7a1438;
+}
+
+button {
+  background: linear-gradient(135deg,#ff4d88,#ff1f68);
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 16px 28px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255,31,104,0.3);
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.08);
 }
 
 #confettiCanvas {
   position: fixed;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
-  z-index: 9999;
 }
 
-.card {
-  width: min(720px, 92vw);
-  padding: 34px 28px;
-  background: rgba(255,255,255,0.78);
-  backdrop-filter: blur(18px);
-  border-radius: 30px;
-  text-align: center;
-  box-shadow:
-    0 25px 80px rgba(255, 59, 122, 0.18),
-    inset 0 0 0 1px rgba(255,255,255,0.6);
-  animation: float 4s ease-in-out infinite;
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 24px;
+  color: #ff4d88;
+  animation: float 5s linear infinite;
 }
 
 @keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.art {
-  width: min(240px, 80vw);
-  margin: 0 auto 10px;
-  filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
-}
-
-.love-line {
-  font-size: 18px;
-  color: #7a1438;
-  margin: 14px 0 22px;
-  opacity: 0.9;
-}
-
-h1 {
-  font-size: clamp(26px, 4vw, 44px);
-  margin: 10px 0 18px;
-  color: #3b0a1e;
-  line-height: 1.3;
-}
-
-.button-zone {
-  position: relative;
-  width: min(520px, 92%);
-  height: 150px;
-  margin: 0 auto;
-  touch-action: none;
-}
-
-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 16px 26px;
-  font-size: 18px;
-  font-weight: 800;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 12px 26px rgba(0,0,0,.15);
-  transition: transform .12s ease, background .12s ease;
-}
-
-#yesBtn {
-  left: 18%;
-  background: linear-gradient(135deg, #ff4d88, #ff1f68);
-  color: white;
-  animation: heartbeat 1.8s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-  0%,100% { transform: translateY(-50%) scale(1); }
-  50% { transform: translateY(-50%) scale(1.05); }
-}
-
-#noBtn {
-  left: 62%;
-  background: white;
-  color: #6b7280;
-  border: 1px dashed #fbcfe8;
-}
-
-.hint {
-  margin-top: 10px;
-  font-size: 13px;
-  opacity: .65;
-}
-
-.result {
-  display: none;
-  margin-top: 20px;
-  animation: pop .4s ease;
-}
-
-@keyframes pop {
-  from { transform: scale(.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.result h2 {
-  font-size: clamp(32px, 4.5vw, 48px);
-  color: var(--accent);
-  margin: 12px 0;
-}
-
-.forever {
-  font-size: 16px;
-  opacity: 0.8;
+  0% { transform: translateY(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(-400px) rotate(360deg); opacity:0; }
 }
 </style>
 </head>
@@ -155,110 +90,39 @@ button {
 <body>
 <canvas id="confettiCanvas"></canvas>
 
-<main class="card">
-
-<!-- Cute heart bear -->
-<svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-<path d="M250 50 C250 33 270 25 282 38
-         C294 25 314 33 314 50
-         C314 78 282 92 282 106
-         C282 92 250 78 250 50Z"
-      fill="#ff4d7d"/>
-<path d="M90 120 C90 70 140 40 190 60
-         C240 40 290 70 290 120
-         C290 180 240 210 190 210
-         C140 210 90 180 90 120Z"
-      fill="#f2a97b"/>
-<circle cx="160" cy="130" r="8"/>
-<circle cx="220" cy="130" r="8"/>
-</svg>
-
-<p class="love-line">Being with you makes me love myself more.</p>
-
-<h1>
-Ambuu…<br>
-will you be my forever Valentine? 🤍
-</h1>
-
-<section class="button-zone" id="zone">
-  <button id="yesBtn">Yes</button>
-  <button id="noBtn">No</button>
-</section>
-
-<div class="hint" id="hint">
-“No” seems to be shy today 💕
+<div class="card">
+  <p>Being with you makes me love myself more.</p>
+  <p>Your heart feels safest in mine.</p>
+  <p>I will protect your heart with everything I have, for it is the most valuable thing to me.</p>
+  <p>You are a person worth celebrating. I will always make you feel special.</p>
+  <button id="yesBtn">💖 Yes, forever 💖</button>
 </div>
 
-<section class="result" id="result">
-  <h2> I promise to make you feel special. Where were you all these years?? </h2>
-  <p class="forever">Being with you makes me love myself more. Your Heart is the safest in my heart 💞</p>
-</section>
-
-</main>
-
+<!-- Floating hearts -->
 <script>
-const zone = document.getElementById("zone");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const result = document.getElementById("result");
-const hint = document.getElementById("hint");
-const canvas = document.getElementById("confettiCanvas");
-
-function resize() {
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = innerWidth * dpr;
-  canvas.height = innerHeight * dpr;
-  canvas.style.width = "100vw";
-  canvas.style.height = "100vh";
+const body = document.body;
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random()*100 + 'vw';
+  heart.style.fontSize = (12 + Math.random()*24) + 'px';
+  heart.style.animationDuration = (4 + Math.random()*3) + 's';
+  heart.textContent = '❤️';
+  body.appendChild(heart);
+  setTimeout(() => body.removeChild(heart), 7000);
 }
-resize();
-addEventListener("resize", resize);
+setInterval(createHeart, 400);
 
-const confettiFx = confetti.create(canvas, { resize: false });
+const canvas = document.getElementById('confettiCanvas');
+const confettiFx = confetti.create(canvas, { resize: true });
 
-let yesScale = 1;
-function growYes() {
-  yesScale = Math.min(2.2, yesScale + 0.1);
-  yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
-}
-
-function moveNo(x,y) {
-  const z = zone.getBoundingClientRect();
-  const b = noBtn.getBoundingClientRect();
-  let nx = Math.random() * (z.width - b.width);
-  let ny = Math.random() * (z.height - b.height);
-  noBtn.style.left = nx + "px";
-  noBtn.style.top = ny + "px";
-  noBtn.style.transform = "none";
-  growYes();
-}
-
-zone.addEventListener("pointermove", e => {
-  const b = noBtn.getBoundingClientRect();
-  const d = Math.hypot(
-    (b.left + b.width/2) - e.clientX,
-    (b.top + b.height/2) - e.clientY
-  );
-  if (d < 140) moveNo(e.clientX, e.clientY);
-});
-
-yesBtn.addEventListener("click", () => {
-  zone.style.display = "none";
-  hint.style.display = "none";
-  result.style.display = "block";
-  const end = Date.now() + 1600;
-  (function frame() {
-    confettiFx({
-      particleCount: 12,
-      spread: 90,
-      startVelocity: 45,
-      origin: { x: Math.random(), y: Math.random() * 0.3 }
-    });
-    if (Date.now() < end) requestAnimationFrame(frame);
-  })();
+document.getElementById('yesBtn').addEventListener('click', () => {
+  confettiFx({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
+  alert('YAY! 💕 Ambu said YES!');
 });
 </script>
 
 </body>
 </html>
+
 
