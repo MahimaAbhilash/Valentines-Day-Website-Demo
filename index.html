@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You ❤️</title>
+  <title>For You Ambu❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -18,7 +18,21 @@
       justify-content: center;
       background: radial-gradient(circle at top, #2b0f1a, #0d0206);
       color: #fff;
-      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    /* floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 18px;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      100% { transform: translateY(-110vh) scale(1.6); opacity: 0; }
     }
 
     .card {
@@ -27,25 +41,41 @@
       border-radius: 24px;
       padding: 40px;
       max-width: 520px;
+      width: 90%;
       text-align: center;
       box-shadow: 0 30px 80px rgba(0,0,0,0.5);
       position: relative;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, p {
+      animation: textRise 1.2s ease forwards;
+    }
+
+    @keyframes textRise {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
+      font-size: 2.1rem;
+      margin-bottom: 18px;
     }
 
     p {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       line-height: 1.7;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .buttons {
       position: relative;
-      height: 80px;
+      height: 90px;
     }
 
     button {
@@ -71,13 +101,12 @@
       position: absolute;
     }
 
-    /* Second page */
     .page2 {
       display: none;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 20px;
+      gap: 22px;
     }
 
     .gif-placeholder {
@@ -98,7 +127,7 @@
       font-weight: bold;
     }
 
-    .letter {
+    .letter, .counter {
       display: none;
       background: rgba(0,0,0,0.6);
       padding: 25px;
@@ -110,14 +139,13 @@
 </head>
 <body>
 
-  <!-- PAGE 1 -->
   <div class="card" id="page1">
-    <h1>Hey, my calm. My chaos.</h1>
+    <h1>Hey, my Favorite Priority</h1>
     <p>
       My inner child feels the safest when you are around.<br>
       You feel like home to me.<br><br>
-      I don’t want to imagine a single day without you in it.
-      So I’ll ask you the only question that matters.
+     I don’t want to imagine a single day without you in it.
+I just want to be the reason your heart smiles every single day.
     </p>
     <h1>Will you be my Valentine?</h1>
 
@@ -127,13 +155,10 @@
     </div>
   </div>
 
-  <!-- PAGE 2 -->
   <div class="card page2" id="page2">
     <h1>You chose us ❤️</h1>
 
-    <div class="gif-placeholder">
-      GIF goes here
-    </div>
+    <div class="gif-placeholder">GIF goes here</div>
 
     <button class="letter-btn" onclick="openLetter()">Open the letter</button>
 
@@ -147,11 +172,11 @@
         NB: I am a strong woman but you told me
         <em>"njan ninne vilikaand aayalo enn"</em>
         when I was making this for you…<br>
-        that’s why I teared up. Kettooo!<br><br>
-        Athinu compensation aayit promise me that you will write
-        a handwritten letter with your fountain pen to me.
+        that’s why I teared up. Kettooo!
       </p>
     </div>
+
+    <div class="counter" id="counter"></div>
   </div>
 
   <script>
@@ -159,6 +184,7 @@
     const yesBtn = document.getElementById('yesBtn');
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
+    const counter = document.getElementById('counter');
 
     let yesScale = 1;
 
@@ -166,7 +192,6 @@
       const x = Math.random() * 300 - 150;
       const y = Math.random() * 200 - 100;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
       yesScale += 0.1;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
@@ -177,8 +202,28 @@
     });
 
     function openLetter() {
-      document.getElementById('letter').style.display = 'block';
+      document.getElementById('letter').style.display = 'none';
+      document.querySelector('.letter-btn').style.display = 'none';
+      counter.style.display = 'block';
+      updateCounter();
     }
+
+    function updateCounter() {
+      const today = new Date();
+      const end = new Date(today.getFullYear(), 11, 31);
+      const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+      counter.innerHTML = `⏳ ${diff} days left this year for you to write my handwritten letter.`;
+    }
+
+    /* hearts */
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.innerText = '❤️';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }, 600);
   </script>
 
 </body>
