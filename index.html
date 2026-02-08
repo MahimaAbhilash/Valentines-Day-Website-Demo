@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You Ambu❤️</title>
+  <title>For You ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -127,7 +127,23 @@
       font-weight: bold;
     }
 
-    .letter, .counter {
+    .letter {
+      display: none;
+      background: rgba(0,0,0,0.6);
+      padding: 25px;
+      border-radius: 18px;
+      max-width: 420px;
+      line-height: 1.6;
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+
+    @keyframes openLetter {
+      from { transform: scaleY(0); opacity: 0; }
+      to { transform: scaleY(1); opacity: 1; }
+    }
+
+    .counter {
       display: none;
       background: rgba(0,0,0,0.6);
       padding: 25px;
@@ -140,12 +156,12 @@
 <body>
 
   <div class="card" id="page1">
-    <h1>Hey, my Favorite Priority</h1>
+    <h1>Hey, my calm. My chaos.</h1>
     <p>
       My inner child feels the safest when you are around.<br>
       You feel like home to me.<br><br>
-     I don’t want to imagine a single day without you in it.
-I just want to be the reason your heart smiles every single day.
+      I don’t want to imagine a single day without you in it.
+      So I’ll ask you the only question that matters.
     </p>
     <h1>Will you be my Valentine?</h1>
 
@@ -202,10 +218,14 @@ I just want to be the reason your heart smiles every single day.
     });
 
     function openLetter() {
-      document.getElementById('letter').style.display = 'none';
-      document.querySelector('.letter-btn').style.display = 'none';
-      counter.style.display = 'block';
-      updateCounter();
+      const letter = document.getElementById('letter');
+      const btn = document.querySelector('.letter-btn');
+
+      btn.innerText = '💌 Your Letter';
+      btn.style.pointerEvents = 'none';
+
+      letter.style.display = 'block';
+      letter.style.animation = 'openLetter 0.8s ease forwards';
     }
 
     function updateCounter() {
@@ -228,3 +248,4 @@ I just want to be the reason your heart smiles every single day.
 
 </body>
 </html>
+
