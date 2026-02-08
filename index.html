@@ -5,69 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ambu 💖 Will you be my forever Valentine?</title>
 
-<!-- Confetti -->
+<!-- Confetti library -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 <style>
 :root {
-  --gradient1: #ffe6f0;
-  --gradient2: #fff1f7;
+  --bg1: #ffe6f0;
+  --bg2: #fff1f7;
   --accent: #ff3b7a;
-  --card-bg: rgba(255,255,255,0.9);
+  --card-bg: rgba(255,255,255,0.85);
 }
 
-* { box-sizing: border-box; margin:0; padding:0; }
+/* Basic reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--gradient1), var(--gradient2));
   font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
   overflow: hidden;
   position: relative;
 }
 
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 24px;
+  color: #ff4d88;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(-500px) rotate(360deg); opacity:0; }
+}
+
+/* Card */
 .card {
   position: relative;
   background: var(--card-bg);
   backdrop-filter: blur(15px);
   border-radius: 30px;
-  padding: 40px 32px;
-  max-width: 500px;
+  padding: 30px 25px;
+  max-width: 400px;
   width: 90%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(255,59,122,0.15);
+  box-shadow: 0 15px 40px rgba(255,59,122,0.2);
   z-index: 1;
 }
 
+/* Minimal text */
 .love-line {
-  font-size: clamp(16px, 1.9vw, 22px);
-  line-height: 1.5;
-  margin-bottom: 18px;
+  font-size: clamp(16px, 1.6vw, 20px);
   color: #7a1438;
-  min-height: 24px;
+  margin-bottom: 20px;
 }
 
+/* Buttons */
 .button-zone {
   position: relative;
   width: 100%;
-  height: 120px;
-  margin-top: 16px;
+  height: 100px;
+  margin-top: 12px;
 }
 
 button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding: 14px 28px;
-  font-size: 18px;
+  padding: 14px 26px;
+  font-size: 16px;
   font-weight: 700;
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255,31,104,0.3);
+  box-shadow: 0 8px 20px rgba(255,31,104,0.3);
   transition: transform 0.2s, background 0.2s;
 }
 
@@ -86,12 +101,14 @@ button {
   border: 1px dashed #fbcfe8;
 }
 
+/* Hint */
 .hint {
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 13px;
-  opacity: .65;
+  opacity: 0.65;
 }
 
+/* Confetti canvas */
 #confettiCanvas {
   position: fixed;
   inset: 0;
@@ -99,23 +116,10 @@ button {
   pointer-events: none;
 }
 
-/* Floating hearts */
-.heart {
-  position: absolute;
-  font-size: 24px;
-  color: #ff4d88;
-  animation: float 5s linear infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0) rotate(0deg); opacity:1; }
-  100% { transform: translateY(-400px) rotate(360deg); opacity:0; }
-}
-
-/* Result section */
+/* Result page */
 .result {
   display: none;
-  margin-top: 20px;
+  margin-top: 10px;
   animation: pop .4s ease;
 }
 
@@ -136,27 +140,25 @@ button {
 <canvas id="confettiCanvas"></canvas>
 
 <div class="card">
-  <!-- Love lines will appear here -->
-  <div id="loveLines">
-    <div class="love-line" id="line1"></div>
-    <div class="love-line" id="line2"></div>
-    <div class="love-line" id="line3"></div>
-    <div class="love-line" id="line4"></div>
+  <!-- First Page Minimal Text -->
+  <div id="firstPage">
+    <div class="love-line">Being with you feels like magic ✨</div>
+    <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" alt="cute hearts gif" style="width:100px; margin-bottom:20px; border-radius:12px;">
+    
+    <!-- Buttons -->
+    <div class="button-zone" id="zone">
+      <button id="yesBtn">💖 Yes 💖</button>
+      <button id="noBtn">❌ No ❌</button>
+    </div>
+    <div class="hint" id="hint">“No” seems to be running away from you 💕</div>
   </div>
 
-  <!-- Buttons -->
-  <div class="button-zone" id="zone">
-    <button id="yesBtn">💖 Yes 💖</button>
-    <button id="noBtn">❌ No ❌</button>
-  </div>
-
-  <div class="hint" id="hint">“No” seems to be running away from you 💕</div>
-
-  <section class="result" id="result">
+  <!-- Second Page Result -->
+  <div class="result" id="result">
     <h2>YAY! 🎉</h2>
     <p>You just made me the happiest person ever 💞</p>
     <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Cute love gif">
-  </section>
+  </div>
 </div>
 
 <script>
@@ -166,7 +168,7 @@ function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.style.left = Math.random()*100 + 'vw';
-  heart.style.fontSize = (12 + Math.random()*24) + 'px';
+  heart.style.fontSize = (14 + Math.random()*20) + 'px';
   heart.style.animationDuration = (4 + Math.random()*3) + 's';
   heart.textContent = '❤️';
   body.appendChild(heart);
@@ -174,41 +176,13 @@ function createHeart() {
 }
 setInterval(createHeart, 400);
 
-/* ---------- Typing Love Lines ---------- */
-const lines = [
-  "Being with you makes me love myself more...",
-  "Your heart feels safest in mine...",
-  "I will protect your heart with everything I have, for it is the most valuable thing to me...",
-  "You are a person worth celebrating. I will always make you feel special..."
-];
-
-function typeLine(line, element, delay=0) {
-  let i=0;
-  setTimeout(()=>{
-    const interval = setInterval(()=>{
-      if(i<line.length){
-        element.textContent += line[i];
-        i++;
-      } else clearInterval(interval);
-    },40);
-  }, delay);
-}
-
-typeLine(lines[0], document.getElementById('line1'), 500);
-typeLine(lines[1], document.getElementById('line2'), 2500);
-typeLine(lines[2], document.getElementById('line3'), 5000);
-typeLine(lines[3], document.getElementById('line4'), 7500);
-
-/* ---------- CONFETTI ---------- */
-const canvas = document.getElementById('confettiCanvas');
-const confettiFx = confetti.create(canvas, { resize: true });
-
 /* ---------- NO BUTTON EVADES ---------- */
 const zone = document.getElementById("zone");
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const result = document.getElementById("result");
 const hint = document.getElementById("hint");
+const result = document.getElementById("result");
+const firstPage = document.getElementById("firstPage");
 
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
@@ -232,15 +206,20 @@ zone.addEventListener("pointermove", e => {
   const d = Math.hypot((b.left + b.width/2)-e.clientX,(b.top + b.height/2)-e.clientY);
   if(d < 120) moveNo(e.clientX, e.clientY);
 });
-
 noBtn.addEventListener("click", e => e.preventDefault());
 
 /* ---------- YES CLICK ---------- */
+const canvas = document.getElementById('confettiCanvas');
+const confettiFx = confetti.create(canvas, { resize: true });
+
 yesBtn.addEventListener("click", () => {
-  zone.style.display = "none";
-  hint.style.display = "none";
+  // Hide first page
+  firstPage.style.display = "none";
+
+  // Show result
   result.style.display = "block";
-  // Confetti with tiny love words
+
+  // Confetti with love words
   const loveWords = ["Love", "Forever", "💖", "My Heart", "❤️"];
   for(let i=0;i<5;i++){
     confettiFx({
@@ -256,7 +235,3 @@ yesBtn.addEventListener("click", () => {
 </script>
 </body>
 </html>
-
-
-
-
