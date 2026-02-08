@@ -13,7 +13,7 @@
   --gradient1: #ffe6f0;
   --gradient2: #fff1f7;
   --accent: #ff3b7a;
-  --card-bg: rgba(255,255,255,0.85);
+  --card-bg: rgba(255,255,255,0.9);
 }
 
 * { box-sizing: border-box; margin:0; padding:0; }
@@ -42,11 +42,12 @@ body {
   z-index: 1;
 }
 
-p {
+.love-line {
   font-size: clamp(16px, 1.9vw, 22px);
   line-height: 1.5;
   margin-bottom: 18px;
   color: #7a1438;
+  min-height: 24px;
 }
 
 .button-zone {
@@ -111,6 +112,7 @@ button {
   100% { transform: translateY(-400px) rotate(360deg); opacity:0; }
 }
 
+/* Result section */
 .result {
   display: none;
   margin-top: 20px;
@@ -134,19 +136,21 @@ button {
 <canvas id="confettiCanvas"></canvas>
 
 <div class="card">
-  <p>Being with you makes me love myself more.</p>
-  <p>Your heart feels safest in mine.</p>
-  <p>I will protect your heart with everything I have, for it is the most valuable thing to me.</p>
-  <p>You are a person worth celebrating. I will always make you feel special.</p>
+  <!-- Love lines will appear here -->
+  <div id="loveLines">
+    <div class="love-line" id="line1"></div>
+    <div class="love-line" id="line2"></div>
+    <div class="love-line" id="line3"></div>
+    <div class="love-line" id="line4"></div>
+  </div>
 
+  <!-- Buttons -->
   <div class="button-zone" id="zone">
     <button id="yesBtn">💖 Yes 💖</button>
     <button id="noBtn">❌ No ❌</button>
   </div>
 
-  <div class="hint" id="hint">
-    “No” seems to be running away from you 💕
-  </div>
+  <div class="hint" id="hint">“No” seems to be running away from you 💕</div>
 
   <section class="result" id="result">
     <h2>YAY! 🎉</h2>
@@ -169,6 +173,31 @@ function createHeart() {
   setTimeout(() => body.removeChild(heart), 7000);
 }
 setInterval(createHeart, 400);
+
+/* ---------- Typing Love Lines ---------- */
+const lines = [
+  "Being with you makes me love myself more...",
+  "Your heart feels safest in mine...",
+  "I will protect your heart with everything I have, for it is the most valuable thing to me...",
+  "You are a person worth celebrating. I will always make you feel special..."
+];
+
+function typeLine(line, element, delay=0) {
+  let i=0;
+  setTimeout(()=>{
+    const interval = setInterval(()=>{
+      if(i<line.length){
+        element.textContent += line[i];
+        i++;
+      } else clearInterval(interval);
+    },40);
+  }, delay);
+}
+
+typeLine(lines[0], document.getElementById('line1'), 500);
+typeLine(lines[1], document.getElementById('line2'), 2500);
+typeLine(lines[2], document.getElementById('line3'), 5000);
+typeLine(lines[3], document.getElementById('line4'), 7500);
 
 /* ---------- CONFETTI ---------- */
 const canvas = document.getElementById('confettiCanvas');
@@ -211,11 +240,23 @@ yesBtn.addEventListener("click", () => {
   zone.style.display = "none";
   hint.style.display = "none";
   result.style.display = "block";
-  confettiFx({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
+  // Confetti with tiny love words
+  const loveWords = ["Love", "Forever", "💖", "My Heart", "❤️"];
+  for(let i=0;i<5;i++){
+    confettiFx({
+      particleCount: 60,
+      spread: 120,
+      origin: { x: Math.random(), y: Math.random()*0.6 },
+      scalar: 1.2,
+      shapes: ['text'],
+      text: loveWords[Math.floor(Math.random()*loveWords.length)]
+    });
+  }
 });
 </script>
 </body>
 </html>
+
 
 
 
